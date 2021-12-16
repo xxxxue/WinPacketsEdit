@@ -1,9 +1,10 @@
 ﻿using System;
-using System.Windows.Forms;
-using EasyHook;
+using System.Diagnostics;
 using System.IO;
 using System.Runtime.InteropServices;
-using System.Diagnostics;
+using System.Windows.Forms;
+
+using EasyHook;
 
 namespace ProcessInjector
 {
@@ -19,7 +20,7 @@ namespace ProcessInjector
         [DllImport("kernel32.dll", SetLastError = true, CallingConvention = CallingConvention.Winapi)]
         [return: MarshalAs(UnmanagedType.Bool)]
         internal static extern bool IsWow64Process([In] IntPtr process, [Out] out bool wow64Process);
-        
+
         //窗体加载
         public Injector_Form()
         {
@@ -81,7 +82,7 @@ namespace ProcessInjector
             ProcessPath = Program.PATH;
             ProcessName = Program.PNAME;
             string sDllName = "WPELibrary.dll";
-            
+
             try
             {
                 if (string.IsNullOrEmpty(ProcessPath) && string.IsNullOrEmpty(ProcessName))
@@ -91,7 +92,7 @@ namespace ProcessInjector
                 else
                 {
                     string injectionLibrary_x86 = Path.Combine(Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location), sDllName);
-                    string injectionLibrary_x64 = Path.Combine(Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location), sDllName);                    
+                    string injectionLibrary_x64 = Path.Combine(Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location), sDllName);
 
                     ShowLog("开始注入目标进程 =>> " + ProcessName);
 
@@ -101,19 +102,19 @@ namespace ProcessInjector
                     }
                     else
                     {
-                        RemoteHooking.CreateAndInject(ProcessPath, string.Empty, 0, injectionLibrary_x86, injectionLibrary_x64, out this.ProcessID, string.Empty);                                                
+                        RemoteHooking.CreateAndInject(ProcessPath, string.Empty, 0, injectionLibrary_x86, injectionLibrary_x64, out this.ProcessID, string.Empty);
                     }
 
                     int targetPlat = IsWin64Process(ProcessID) ? 64 : 32;
                     ShowLog(string.Format("目标进程是{0}位程序，已自动调用{0}位的注入模块!", targetPlat));
                     ShowLog(string.Format("已成功注入目标进程 =>> {0}[{1}]", ProcessName, ProcessID));
                     ShowLog("注入完成，可关闭当前注入器.");
-                }                
+                }
             }
             catch (Exception ex)
-            {                
-                ShowLog("出现错误：" + ex.Message);                
+            {
+                ShowLog("出现错误：" + ex.Message);
             }
-        }                        
+        }
     }
 }

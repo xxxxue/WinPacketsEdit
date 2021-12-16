@@ -1,5 +1,5 @@
-﻿using System.Runtime.InteropServices;
-using System;
+﻿using System;
+using System.Runtime.InteropServices;
 
 namespace WPELibrary.Lib
 {
@@ -214,9 +214,9 @@ namespace WPELibrary.Lib
                 }
             }
             catch
-            { 
+            {
                 //
-            }            
+            }
 
             return sReturn;
         }
@@ -234,7 +234,7 @@ namespace WPELibrary.Lib
                 sReturn = iValue_Dec.ToString("X2");
             }
             catch
-            { 
+            {
                 //
             }
 
@@ -259,7 +259,7 @@ namespace WPELibrary.Lib
                 sReturn = sHex;
             }
             catch
-            { 
+            {
                 //
             }
 

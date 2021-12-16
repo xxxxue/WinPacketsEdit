@@ -1,33 +1,35 @@
 ﻿using System;
-using System.Data;
-using System.Windows.Forms;
-using EasyHook;
-using System.Diagnostics;
 using System.ComponentModel;
-using System.Reflection;
+using System.Data;
+using System.Diagnostics;
 using System.IO;
+using System.Reflection;
+using System.Windows.Forms;
+
+using EasyHook;
+
 using WPELibrary.Lib;
 
 namespace WPELibrary
 {
     public partial class DLL_Form : Form
     {
-        private WinSockHook ws = new WinSockHook();        
+        private WinSockHook ws = new WinSockHook();
         private SocketOperation so = new SocketOperation();
         public event SocketEvent.SocketPacketReceived RecSocketPacket;
-        private BindingList<SocketInfo> lstRecPacket = new BindingList<SocketInfo>();        
+        private BindingList<SocketInfo> lstRecPacket = new BindingList<SocketInfo>();
 
-        private int Select_Index = -1;      
+        private int Select_Index = -1;
         private int FilterCNT = 0;
         private int iShowDataLen = 50;
-        
+
         bool bDebug = true;
-        bool bWakeUp = true;        
-                
+        bool bWakeUp = true;
+
         public DLL_Form()
         {
-            InitializeComponent();            
-        }        
+            InitializeComponent();
+        }
 
         //加载窗体
         private void DLL_Form_Load(object sender, EventArgs e)
@@ -38,7 +40,7 @@ namespace WPELibrary
             this.bStopHook.Enabled = false;
 
             this.Text = "封包拦截器（无需代理）";
-            this.tlSystemInfo.Text = string.Format("已注入目标进程 {0} [{1}]", Process.GetCurrentProcess().ProcessName, RemoteHooking.GetCurrentProcessId());           
+            this.tlSystemInfo.Text = string.Format("已注入目标进程 {0} [{1}]", Process.GetCurrentProcess().ProcessName, RemoteHooking.GetCurrentProcessId());
 
             //初始化发送列表
             SocketSend.dtSocketBatchSend.Columns.Add("序号", typeof(int));
@@ -47,13 +49,13 @@ namespace WPELibrary
             SocketSend.dtSocketBatchSend.Columns.Add("目的地址", typeof(string));
             SocketSend.dtSocketBatchSend.Columns.Add("长度", typeof(int));
             SocketSend.dtSocketBatchSend.Columns.Add("数据", typeof(string));
-            SocketSend.dtSocketBatchSend.Columns.Add("字节", typeof(byte[]));           
+            SocketSend.dtSocketBatchSend.Columns.Add("字节", typeof(byte[]));
 
             dgSocketInfo.AutoGenerateColumns = false;
             dgSocketInfo.DataSource = lstRecPacket;
             dgSocketInfo.GetType().GetProperty("DoubleBuffered", BindingFlags.Instance | BindingFlags.NonPublic).SetValue(dgSocketInfo, true, null);
             RecSocketPacket += new SocketEvent.SocketPacketReceived(Event_RecSocketPacket);
-            
+
             this.tSocketInfo.Enabled = true;
         }
 
@@ -94,7 +96,7 @@ namespace WPELibrary
             so.Filter_Packet_txt = this.txtFilter_Packet.Text.Trim();
 
             if (cbReset_CNT.Checked)
-            {               
+            {
                 this.FilterCNT = 0;
 
                 this.dgSocketInfo.Rows.Clear();
@@ -106,7 +108,7 @@ namespace WPELibrary
                 this.rtbUTF8.Clear();
                 this.rtbGB2312.Clear();
                 this.rtbDEBUG.Clear();
-            }            
+            }
         }
 
         //显示拦截的封包
@@ -228,13 +230,13 @@ namespace WPELibrary
                             this.rtbGB2312.Invoke((MethodInvoker)delegate { this.rtbGB2312.Text = this.so.Byte_To_GB2312(bSelected); });
                             break;
                     }
-                }                              
+                }
             }
             catch (Exception ex)
             {
                 ShowDebug("ShowPacketInfo - " + ex.Message);
             }
-        }                
+        }
 
         //计时器
         private void tSocketInfo_Tick(object sender, EventArgs e)
@@ -242,16 +244,16 @@ namespace WPELibrary
             this.tlQueue_CNT.Text = ws._SocketQueue.Count.ToString();
             this.tlALL_CNT.Text = (ws.Recv_CNT + ws.Send_CNT).ToString();
             this.tlRecv_CNT.Text = ws.Recv_CNT.ToString();
-            this.tlSend_CNT.Text = ws.Send_CNT.ToString();                        
+            this.tlSend_CNT.Text = ws.Send_CNT.ToString();
             this.tlInterecept_CNT.Text = ws.Interecept_CNT.ToString();
-            this.tlFilter_CNT.Text = FilterCNT.ToString();            
+            this.tlFilter_CNT.Text = FilterCNT.ToString();
 
             if (!bgwSocketInfo.IsBusy)
             {
                 if (ws._SocketQueue.Count > 0)
                 {
                     bgwSocketInfo.RunWorkerAsync();
-                }                
+                }
             }
         }
 
@@ -268,13 +270,13 @@ namespace WPELibrary
             if (bWakeUp)
             {
                 RemoteHooking.WakeUpProcess();
-                this.bWakeUp = false;            
+                this.bWakeUp = false;
             }
         }
 
         //结束拦截
         private void bStopHook_Click(object sender, EventArgs e)
-        {            
+        {
             this.bStartHook.Enabled = true;
             this.bStopHook.Enabled = false;
 
@@ -289,7 +291,7 @@ namespace WPELibrary
                 Select_Index = dgSocketInfo.SelectedRows[0].Index;
                 ShowPacketInfo();
             }
-        }       
+        }
 
         //右键菜单
         private void cmsSocketInfo_ItemClicked(object sender, ToolStripItemClickedEventArgs e)
@@ -416,7 +418,7 @@ namespace WPELibrary
                         ShowDebug(ex.Message);
                     }
                 }
-            }                        
+            }
         }
 
         //搜索
@@ -446,9 +448,9 @@ namespace WPELibrary
         {
             if (bDebug)
             {
-                this.rtbDEBUG.Invoke((MethodInvoker)delegate { this.rtbDEBUG.AppendText(sLog + "\n");});                
+                this.rtbDEBUG.Invoke((MethodInvoker)delegate { this.rtbDEBUG.AppendText(sLog + "\n"); });
             }
-        }               
+        }
 
         //异步显示封包数据
         private void Event_RecSocketPacket(SocketInfo si)

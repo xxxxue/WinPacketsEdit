@@ -1,11 +1,12 @@
 ﻿using System;
-using System.Windows.Forms;
-using System.Threading;
-using System.Runtime.InteropServices;
-using System.IO;
-using System.Text;
 using System.Data;
 using System.Diagnostics;
+using System.IO;
+using System.Runtime.InteropServices;
+using System.Text;
+using System.Threading;
+using System.Windows.Forms;
+
 using EasyHook;
 
 namespace WPELibrary
@@ -69,7 +70,7 @@ namespace WPELibrary
             else if (sItemText.Equals("清空发送列表"))
             {
                 Lib.SocketSend.dtSocketBatchSend.Rows.Clear();
-            }            
+            }
             else
             {
                 //
@@ -105,7 +106,7 @@ namespace WPELibrary
                     {
                         bSocketOK = false;
                     }
-                }               
+                }
             }
 
             if (bSocketOK)
@@ -217,7 +218,7 @@ namespace WPELibrary
                                 }
                             }
                         }
-                    }                    
+                    }
 
                     SendBatchCNT++;
                     int iSendLeft = iSendCNT - SendBatchCNT;
@@ -228,9 +229,9 @@ namespace WPELibrary
                     }
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
-                string sError = ex.Message;             
+                string sError = ex.Message;
             }
         }
 
@@ -250,7 +251,7 @@ namespace WPELibrary
         private void SocketBatchSend_Form_FormClosed(object sender, FormClosedEventArgs e)
         {
             Lib.SocketSend.bHasBatchSendForm = false;
-        }      
+        }
 
         //保存此列表数据
         private void bSaveSocket_Click(object sender, EventArgs e)
@@ -271,7 +272,7 @@ namespace WPELibrary
                             try
                             {
                                 byte[] bBuffer = (byte[])Lib.SocketSend.dtSocketBatchSend.Rows[i]["字节"];
-                                
+
                                 string sIndex = (i + 1).ToString();
                                 string sNote = this.dgBatchSend.Rows[i].Cells["cNote"].Value.ToString().Trim();
                                 string sSocket = this.dgBatchSend.Rows[i].Cells["cSocket"].Value.ToString().Trim();
@@ -288,7 +289,7 @@ namespace WPELibrary
                             catch
                             {
                                 iFail++;
-                            }                            
+                            }
                         }
 
                         sw.Flush();
@@ -297,10 +298,10 @@ namespace WPELibrary
 
                         MessageBox.Show("保存完毕，成功【" + iSuccess + "】失败【" + iFail + "】！", "提示", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     }
-                    catch(Exception ex)
+                    catch (Exception ex)
                     {
                         MessageBox.Show("保存失败！错误：" + ex.Message, "提示", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    }                    
+                    }
                 }
             }
         }
@@ -351,7 +352,7 @@ namespace WPELibrary
                         catch
                         {
                             iFail++;
-                        }                        
+                        }
                     }
                 }
 
@@ -360,7 +361,7 @@ namespace WPELibrary
             catch (Exception ex)
             {
                 MessageBox.Show("加载失败！错误：" + ex.Message, "提示", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            }                        
+            }
         }
 
         //全选/取消
@@ -372,7 +373,7 @@ namespace WPELibrary
                 sSelect = "1";
             }
 
-            for (int i = 0;i < this.dgBatchSend.Rows.Count;i ++)
+            for (int i = 0; i < this.dgBatchSend.Rows.Count; i++)
             {
                 this.dgBatchSend.Rows[i].Cells["cCheck"].Value = sSelect;
             }

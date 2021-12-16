@@ -1,13 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
+
 using EasyHook;
 
 namespace WPELibrary.Lib
 {
     public class WinSockHook
-    { 
-        public Queue<SocketPacket> _SocketQueue = new Queue<SocketPacket>();        
+    {
+        public Queue<SocketPacket> _SocketQueue = new Queue<SocketPacket>();
 
         public bool Interecept_Recv;
         public bool Interecept_RecvFrom;
@@ -230,10 +231,10 @@ namespace WPELibrary.Lib
         private void SocketEnqueue(int iSocket, IntPtr ipBuff, int iLen, string sType, SocketPacket.sockaddr sAddr)
         {
             byte[] bBuffer = new byte[iLen];
-            Marshal.Copy(ipBuff, bBuffer, 0, iLen);            
+            Marshal.Copy(ipBuff, bBuffer, 0, iLen);
 
             SocketPacket sp = new SocketPacket(sType, iSocket, iLen, bBuffer, sAddr);
-            _SocketQueue.Enqueue(sp);            
+            _SocketQueue.Enqueue(sp);
         }
 
         //发送封包
@@ -252,7 +253,7 @@ namespace WPELibrary.Lib
                 bReturn = false;
             }
 
-            return bReturn;            
+            return bReturn;
         }
     }
 }

@@ -48,12 +48,12 @@ namespace ProcessInjector
         //获取显卡数量，及显卡名称
         public string GetGPUInfo()
         {
-            string DisplayName = "";           
+            string DisplayName = "";
 
             ManagementObjectSearcher mos = new ManagementObjectSearcher("Select * from Win32_VideoController");
-           
+
             foreach (ManagementObject mo in mos.Get())
-            {                
+            {
                 DisplayName += mo["Name"].ToString() + ",";
             }
 
@@ -63,20 +63,20 @@ namespace ProcessInjector
 
             return DisplayName;
         }
-        
+
         //获取内存条数量，及大小
         public string GetMEMInfo()
         {
             string PhysicalMemory = "内存：";
 
             ManagementClass m = new ManagementClass("Win32_PhysicalMemory");
-            ManagementObjectCollection mn = m.GetInstances();            
+            ManagementObjectCollection mn = m.GetInstances();
 
-            double capacity = 0.0;          
+            double capacity = 0.0;
 
             foreach (ManagementObject mo1 in mn)
-            {                
-                capacity += ((Math.Round(Int64.Parse(mo1.Properties["Capacity"].Value.ToString()) / 1024 / 1024 / 1024.0, 1)));                
+            {
+                capacity += ((Math.Round(Int64.Parse(mo1.Properties["Capacity"].Value.ToString()) / 1024 / 1024 / 1024.0, 1)));
             }
 
             mn.Dispose();

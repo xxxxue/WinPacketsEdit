@@ -1,8 +1,8 @@
 ﻿using System;
-using System.Windows.Forms;
-using System.Diagnostics;
 using System.Data;
+using System.Diagnostics;
 using System.IO;
+using System.Windows.Forms;
 
 namespace ProcessInjector
 {
@@ -11,7 +11,7 @@ namespace ProcessInjector
         //窗体加载
         public ProcessList_Form()
         {
-            InitializeComponent();            
+            InitializeComponent();
 
             this.GetProcess();
         }
@@ -28,7 +28,7 @@ namespace ProcessInjector
 
             Process[] procesArr = Process.GetProcesses();
 
-            int pCNT = procesArr.Length;            
+            int pCNT = procesArr.Length;
 
             foreach (Process p in procesArr)
             {
@@ -39,7 +39,7 @@ namespace ProcessInjector
 
                 dtProcess.Rows.Add(dr);
             }
-            
+
             DataView dv = dtProcess.DefaultView;
             dv.Sort = "ProcessName";
             dtProcess = dv.ToTable();
@@ -51,7 +51,7 @@ namespace ProcessInjector
                 obj.SubItems.Add(drSort[1].ToString());
                 obj.SubItems.Add(drSort[2].ToString());
                 lvProcessList.Items.Add(obj);
-            }            
+            }
 
             lProcessCNT.Text = "进程数：" + pCNT.ToString();
         }
@@ -74,7 +74,7 @@ namespace ProcessInjector
 
         //刷新进程列表
         private void bRefresh_Click(object sender, EventArgs e)
-        {            
+        {
             GetProcess();
         }
 

@@ -62,8 +62,8 @@ namespace WPELibrary.Lib
         public SocketPacket(string type, int socket, int length, byte[] buffer, sockaddr addr)
         {
             this.type = type;
-            this.socket = socket;          
-            this.length = length;           
+            this.socket = socket;
+            this.length = length;
             this.buffer = buffer;
             this.addr = addr;
         }

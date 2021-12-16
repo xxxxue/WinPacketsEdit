@@ -1,6 +1,6 @@
 ﻿
 namespace WPELibrary.Lib
-{    
+{
     public class SocketInfo
     {
         //序号
@@ -65,7 +65,7 @@ namespace WPELibrary.Lib
         {
             get { return buffer; }
             set { buffer = value; }
-        }        
+        }
 
         public SocketInfo(int index, string type, int socket, string from, string to, int length, string data, byte[] buffer)
         {
@@ -76,7 +76,7 @@ namespace WPELibrary.Lib
             this.to = to;
             this.length = length;
             this.data = data;
-            this.buffer = buffer;          
+            this.buffer = buffer;
         }
     }
 }

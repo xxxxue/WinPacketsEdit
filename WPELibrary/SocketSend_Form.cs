@@ -1,16 +1,18 @@
 ﻿using System;
-using System.Windows.Forms;
-using System.Runtime.InteropServices;
-using System.Threading;
-using WPELibrary.Lib;
 using System.Data;
 using System.Diagnostics;
+using System.Runtime.InteropServices;
+using System.Threading;
+using System.Windows.Forms;
+
 using EasyHook;
+
+using WPELibrary.Lib;
 
 namespace WPELibrary
 {
     public partial class SocketSend_Form : Form
-    {  
+    {
         private int SendPacketCNT = 0;
         private int Send_Success_CNT = 0;
         private int Send_Fail_CNT = 0;
@@ -19,11 +21,11 @@ namespace WPELibrary
         private SocketOperation so = new SocketOperation();
 
         public string Send_Index, Send_Socket, Send_Len, Send_IPTo;
-        public byte[] Send_Byte;        
+        public byte[] Send_Byte;
 
         public SocketSend_Form()
         {
-            InitializeComponent();            
+            InitializeComponent();
         }
 
         //窗体加载
@@ -55,7 +57,7 @@ namespace WPELibrary
             catch (Exception ex)
             {
                 //         
-            }            
+            }
         }
 
         //发送按钮
@@ -71,7 +73,7 @@ namespace WPELibrary
                     MessageBox.Show("请正确设置递进位置!");
                     return;
                 }
-            }            
+            }
 
             this.bSend.Enabled = false;
             this.bSendStop.Enabled = true;
@@ -130,7 +132,7 @@ namespace WPELibrary
         //递进位置
         private void nudStepIndex_ValueChanged(object sender, EventArgs e)
         {
-            this.ShowStepValue();                        
+            this.ShowStepValue();
         }
 
         //递进步长
@@ -141,17 +143,17 @@ namespace WPELibrary
 
         //显示递进数据
         private void ShowStepValue()
-        {            
-            int iStepIndex = int.Parse(this.nudStepIndex.Value.ToString()) - 1;            
+        {
+            int iStepIndex = int.Parse(this.nudStepIndex.Value.ToString()) - 1;
             int iStepLen = int.Parse(this.nudStepLen.Value.ToString());
             string sData = this.rtbSocketSend_Data.Text.Trim();
 
             string sStepIndex = so.GetValueByIndex_HEX(sData, iStepIndex);
-            string sStepLen = so.GetValueByLen_HEX(sStepIndex, iStepLen);          
+            string sStepLen = so.GetValueByLen_HEX(sStepIndex, iStepLen);
 
             this.lStepIndex.Text = sStepIndex;
             this.lStepLen.Text = sStepLen;
-        }        
+        }
 
         //计时器
         private void tSend_Tick(object sender, EventArgs e)
@@ -217,7 +219,7 @@ namespace WPELibrary
                             {
                                 Send_Fail_CNT++;
                             }
-                            
+
                             int iSendLeft = iCNT - SendPacketCNT;
 
                             if (iSendLeft > 0)
@@ -236,12 +238,12 @@ namespace WPELibrary
                     SendPacketCNT++;
                 }
             }
-                
+
         }
 
         //多线程
         private void bgwSendPacket_DoWork(object sender, System.ComponentModel.DoWorkEventArgs e)
-        {           
+        {
             SendPacket();
 
             this.bSend.Enabled = true;

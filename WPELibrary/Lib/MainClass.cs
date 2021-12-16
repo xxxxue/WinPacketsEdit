@@ -1,8 +1,9 @@
-﻿using EasyHook;
-using System.Windows.Forms;
+﻿using System.Windows.Forms;
+
+using EasyHook;
 
 namespace WPELibrary.Lib
-{    
+{
     public class MainClass : IEntryPoint
     {
         [System.Runtime.InteropServices.DllImport("user32.dll")]
@@ -21,7 +22,7 @@ namespace WPELibrary.Lib
 
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new DLL_Form());           
-        }        
+            Application.Run(new DLL_Form());
+        }
     }
 }
